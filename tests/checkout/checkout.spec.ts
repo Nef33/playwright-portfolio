@@ -5,6 +5,7 @@ import { CartPage } from "../../pages/CartPage";
 import { CheckoutStepOnePage } from "../../pages/CheckoutStepOnePage";
 import { CheckoutStepTwoPage } from "../../pages/CheckoutStepTwoPage";       
 import { CheckoutCompletePage } from "../../pages/CheckoutCompletePage";
+import { checkoutInfo, messages, products } from "../../utils/testData";
 
 
 test.describe("Checkout Flow", () => {
@@ -19,15 +20,15 @@ test.describe("Checkout Flow", () => {
     const checkoutStepTwoPage = new CheckoutStepTwoPage(loggedInPage);
     const checkoutCompletePage = new CheckoutCompletePage(loggedInPage);
 
-    await inventoryPage.addItemToCartByName("Sauce Labs Backpack");
+    await inventoryPage.addItemToCartByName(products.backpack);
     await inventoryPage.goToCart();
     await cartPage.proceedToCheckout();
-    await checkoutStepOnePage.fillCheckoutInformation("John", "Doe", "12345");
+    await checkoutStepOnePage.fillCheckoutInformation(checkoutInfo.firstName, checkoutInfo.lastName, checkoutInfo.zipCode);
     await checkoutStepOnePage.continueToPayment();
     await checkoutStepTwoPage.finishCheckout();
 
     const confirmationMessage = await checkoutCompletePage.getConfirmationMessage();
-    expect(confirmationMessage).toContain("Thank you for your order!");
+    expect(confirmationMessage).toContain(messages.orderConfirmation);
   });
 
   test("should cancel checkout", async ({ loggedInPage }) => {
@@ -37,10 +38,10 @@ test.describe("Checkout Flow", () => {
     const checkoutStepOnePage = new CheckoutStepOnePage(loggedInPage);
     const checkoutStepTwoPage = new CheckoutStepTwoPage(loggedInPage);
   
-    await inventoryPage.addItemToCartByName("Sauce Labs Backpack");
+    await inventoryPage.addItemToCartByName(products.backpack);
     await inventoryPage.goToCart();
     await cartPage.proceedToCheckout();
-    await checkoutStepOnePage.fillCheckoutInformation("John", "Doe", "12345");
+    await checkoutStepOnePage.fillCheckoutInformation(checkoutInfo.firstName, checkoutInfo.lastName, checkoutInfo.zipCode);
     await checkoutStepOnePage.continueToPayment();
     await checkoutStepTwoPage.cancelCheckout();
 
