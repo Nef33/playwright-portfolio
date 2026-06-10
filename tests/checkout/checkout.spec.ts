@@ -1,24 +1,24 @@
-import { test, expect } from "@playwright/test";
-import { LoginPage } from "../../pages/LoginPage";
+import {expect } from "@playwright/test";
+import {test} from "../../fixtures/fixtures";
 import { InventoryPage } from "../../pages/InventoryPage";
 import { CartPage } from "../../pages/CartPage";
 import { CheckoutStepOnePage } from "../../pages/CheckoutStepOnePage";
 import { CheckoutStepTwoPage } from "../../pages/CheckoutStepTwoPage";       
 import { CheckoutCompletePage } from "../../pages/CheckoutCompletePage";
-import { users } from "../../utils/testData";
+
 
 test.describe("Checkout Flow", () => {
-  test("should complete checkout", async ({ page }) => {
-    
-    const loginPage = new LoginPage(page);
-    const inventoryPage = new InventoryPage(page);
-    const cartPage = new CartPage(page);
-    const checkoutStepOnePage = new CheckoutStepOnePage(page);
-    const checkoutStepTwoPage = new CheckoutStepTwoPage(page);
-    const checkoutCompletePage = new CheckoutCompletePage(page);
-   
-    await loginPage.goto();
-    await loginPage.login(users.standard.username, users.standard.password);
+  test.beforeEach(async ({ loggedInPage }) => {
+      await expect(loggedInPage).toHaveURL(/inventory/);
+    });
+  test("should complete checkout", async ({ loggedInPage }) => {
+
+    const inventoryPage = new InventoryPage(loggedInPage);
+    const cartPage = new CartPage(loggedInPage);
+    const checkoutStepOnePage = new CheckoutStepOnePage(loggedInPage);
+    const checkoutStepTwoPage = new CheckoutStepTwoPage(loggedInPage);
+    const checkoutCompletePage = new CheckoutCompletePage(loggedInPage);
+
     await inventoryPage.addItemToCartByName("Sauce Labs Backpack");
     await inventoryPage.goToCart();
     await cartPage.proceedToCheckout();
@@ -30,7 +30,21 @@ test.describe("Checkout Flow", () => {
     expect(confirmationMessage).toContain("Thank you for your order!");
   });
 
-  test("should cancel checkout", async ({ page }) => {
-    // another test
+  test("should cancel checkout", async ({ loggedInPage }) => {
+
+    const inventoryPage = new InventoryPage(loggedInPage);
+    const cartPage = new CartPage(loggedInPage);
+    const checkoutStepOnePage = new CheckoutStepOnePage(loggedInPage);
+    const checkoutStepTwoPage = new CheckoutStepTwoPage(loggedInPage);
+  
+    await inventoryPage.addItemToCartByName("Sauce Labs Backpack");
+    await inventoryPage.goToCart();
+    await cartPage.proceedToCheckout();
+    await checkoutStepOnePage.fillCheckoutInformation("John", "Doe", "12345");
+    await checkoutStepOnePage.continueToPayment();
+    await checkoutStepTwoPage.cancelCheckout();
+
+    await expect(loggedInPage).toHaveURL(/inventory/);
+ 
   });
 });

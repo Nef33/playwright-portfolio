@@ -1,9 +1,11 @@
 {
   "name": "playwright-portfolio",
   "version": "1.0.0",
-  "description": "",
+  "description": "Playwright TypeScript automation framework for Sauce Demo",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {"test": "playwright test",
+  "test:headed": "playwright test --headed",
+  "test:report": "playwright show-report"},
   "keywords": [],
   "author": "",
   "license": "ISC",
