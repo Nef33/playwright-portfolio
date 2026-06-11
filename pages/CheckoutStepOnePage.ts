@@ -7,6 +7,7 @@ export class CheckoutStepOnePage {
   readonly postalCode: Locator;
   readonly continueButton: Locator;
   readonly cancelButton: Locator;
+  readonly errorMessage: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -15,6 +16,7 @@ export class CheckoutStepOnePage {
     this.firstName = page.locator('[data-test="firstName"]');
     this.lastName = page.locator('[data-test="lastName"]');
     this.postalCode = page.locator('[data-test="postalCode"]');
+    this.errorMessage = page.locator('[data-test="error"]');
   }
 
   async fillCheckoutInformation(

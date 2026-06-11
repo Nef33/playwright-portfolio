@@ -25,4 +25,6 @@ export const users = {
 
   export const messages = {
     orderConfirmation: "Thank you for your order!",
+    checkoutError: "Error: First Name is required",
   };
+  

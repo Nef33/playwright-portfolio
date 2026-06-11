@@ -53,7 +53,18 @@ test.describe("Checkout", () => {
     await expect(loggedInPage).toHaveURL(/inventory/);
  
   });
+  test("should show error for missing checkout information", async ({ loggedInPage }) => {
+
+    await inventoryPage.addItemToCartByName(products.backpack);
+    await inventoryPage.goToCart();
+    await cartPage.proceedToCheckout();
+    // Leave all fields empty and try to continue
+    await checkoutStepOnePage.continueToPayment();
+
+    const errorMessage = await checkoutStepOnePage.errorMessage.textContent();
+    expect(errorMessage).toContain(messages.checkoutError);
     
  
   });
 
+});
