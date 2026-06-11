@@ -7,19 +7,22 @@ import { products } from "../../utils/testData";
 
 
 test.describe("Cart", () => {
+  let inventoryPage: InventoryPage;
+  let cartPage: CartPage;
   test.beforeEach(async ({ loggedInPage }) => {
     await expect(loggedInPage).toHaveURL(/inventory/);
+    inventoryPage = new InventoryPage(loggedInPage);
+    cartPage = new CartPage(loggedInPage);
   });
 
   test("can add a single item to cart", async ({ loggedInPage }) => {
-    const inventoryPage = new InventoryPage(loggedInPage);
+  
     await inventoryPage.addItemToCartByName(products.backpack);
     const count = await inventoryPage.getCartCount();
     expect(count).toBe("1");
   });
 
   test("can add multiple items to cart", async ({ loggedInPage }) => {
-    const inventoryPage = new InventoryPage(loggedInPage);
     await inventoryPage.addItemToCartByName(products.backpack);
     await inventoryPage.addItemToCartByName(products.bikeLight);
     const count = await inventoryPage.getCartCount();
@@ -27,8 +30,6 @@ test.describe("Cart", () => {
   });
 
   test("cart contains correct items after adding", async ({ loggedInPage }) => {
-    const inventoryPage = new InventoryPage(loggedInPage);
-    const cartPage = new CartPage(loggedInPage);
 
     await inventoryPage.addItemToCartByName(products.backpack);
     await inventoryPage.goToCart();
@@ -38,8 +39,6 @@ test.describe("Cart", () => {
   });
 
   test("can remove item from cart", async ({ loggedInPage }) => {
-    const inventoryPage = new InventoryPage(loggedInPage);
-    const cartPage = new CartPage(loggedInPage);
 
     await inventoryPage.addItemToCartByName(products.backpack);
     await inventoryPage.goToCart();

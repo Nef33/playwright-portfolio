@@ -3,15 +3,18 @@
   "version": "1.0.0",
   "description": "Playwright TypeScript automation framework for Sauce Demo",
   "main": "index.js",
-  "scripts": {"test": "playwright test",
-  "test:headed": "playwright test --headed",
-  "test:report": "playwright show-report"},
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.60.0",
-    "@types/node": "^25.9.1"
+    "@types/node": "^25.9.1",
+    "allure-playwright": "^3.10.0"
   }
 }

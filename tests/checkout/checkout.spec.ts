@@ -8,17 +8,26 @@ import { CheckoutCompletePage } from "../../pages/CheckoutCompletePage";
 import { checkoutInfo, messages, products } from "../../utils/testData";
 
 
-test.describe("Checkout Flow", () => {
+
+test.describe("Checkout", () => {
+  let inventoryPage: InventoryPage;
+  let cartPage: CartPage;
+  let checkoutStepOnePage: CheckoutStepOnePage;
+  let checkoutStepTwoPage: CheckoutStepTwoPage;
+  let checkoutCompletePage: CheckoutCompletePage;
+
   test.beforeEach(async ({ loggedInPage }) => {
       await expect(loggedInPage).toHaveURL(/inventory/);
+      inventoryPage = new InventoryPage(loggedInPage);
+      cartPage = new CartPage(loggedInPage);
+      checkoutStepOnePage = new CheckoutStepOnePage(loggedInPage);
+      checkoutStepTwoPage = new CheckoutStepTwoPage(loggedInPage);
+      checkoutCompletePage = new CheckoutCompletePage(loggedInPage);
     });
+   
+  
   test("should complete checkout", async ({ loggedInPage }) => {
 
-    const inventoryPage = new InventoryPage(loggedInPage);
-    const cartPage = new CartPage(loggedInPage);
-    const checkoutStepOnePage = new CheckoutStepOnePage(loggedInPage);
-    const checkoutStepTwoPage = new CheckoutStepTwoPage(loggedInPage);
-    const checkoutCompletePage = new CheckoutCompletePage(loggedInPage);
 
     await inventoryPage.addItemToCartByName(products.backpack);
     await inventoryPage.goToCart();
@@ -26,17 +35,13 @@ test.describe("Checkout Flow", () => {
     await checkoutStepOnePage.fillCheckoutInformation(checkoutInfo.firstName, checkoutInfo.lastName, checkoutInfo.zipCode);
     await checkoutStepOnePage.continueToPayment();
     await checkoutStepTwoPage.finishCheckout();
-
-    const confirmationMessage = await checkoutCompletePage.getConfirmationMessage();
-    expect(confirmationMessage).toContain(messages.orderConfirmation);
+   expect( await checkoutCompletePage.getConfirmationMessage()).toContain(messages.orderConfirmation);
   });
-
+    
   test("should cancel checkout", async ({ loggedInPage }) => {
 
-    const inventoryPage = new InventoryPage(loggedInPage);
-    const cartPage = new CartPage(loggedInPage);
-    const checkoutStepOnePage = new CheckoutStepOnePage(loggedInPage);
-    const checkoutStepTwoPage = new CheckoutStepTwoPage(loggedInPage);
+    // pages are initialized in beforeEach, so we can directly use them here
+   
   
     await inventoryPage.addItemToCartByName(products.backpack);
     await inventoryPage.goToCart();
@@ -48,4 +53,7 @@ test.describe("Checkout Flow", () => {
     await expect(loggedInPage).toHaveURL(/inventory/);
  
   });
-});
+    
+ 
+  });
+
