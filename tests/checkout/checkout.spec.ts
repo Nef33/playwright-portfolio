@@ -24,9 +24,9 @@ test.describe("Checkout", () => {
       checkoutStepTwoPage = new CheckoutStepTwoPage(loggedInPage);
       checkoutCompletePage = new CheckoutCompletePage(loggedInPage);
     });
-   
-  
-  test("should complete checkout", async ({ loggedInPage }) => {
+
+
+  test("should complete checkout @smoke @regression", async ({ loggedInPage }) => {
 
 
     await inventoryPage.addItemToCartByName(products.backpack);
@@ -37,8 +37,8 @@ test.describe("Checkout", () => {
     await checkoutStepTwoPage.finishCheckout();
    expect( await checkoutCompletePage.getConfirmationMessage()).toContain(messages.orderConfirmation);
   });
-    
-  test("should cancel checkout", async ({ loggedInPage }) => {
+
+  test("should cancel checkout @regression", async ({ loggedInPage }) => {
 
     // pages are initialized in beforeEach, so we can directly use them here
    
@@ -53,7 +53,7 @@ test.describe("Checkout", () => {
     await expect(loggedInPage).toHaveURL(/inventory/);
  
   });
-  test("should show error for missing checkout information", async ({ loggedInPage }) => {
+  test("should show error for missing checkout information @negative @regression", async ({ loggedInPage }) => {
 
     await inventoryPage.addItemToCartByName(products.backpack);
     await inventoryPage.goToCart();

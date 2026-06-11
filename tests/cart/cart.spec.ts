@@ -15,21 +15,21 @@ test.describe("Cart", () => {
     cartPage = new CartPage(loggedInPage);
   });
 
-  test("can add a single item to cart", async ({ loggedInPage }) => {
+  test("can add a single item to cart @smoke @regression", async ({ loggedInPage }) => {
   
     await inventoryPage.addItemToCartByName(products.backpack);
     const count = await inventoryPage.getCartCount();
     expect(count).toBe("1");
   });
 
-  test("can add multiple items to cart", async ({ loggedInPage }) => {
+  test("can add multiple items to cart @smoke", async ({ loggedInPage }) => {
     await inventoryPage.addItemToCartByName(products.backpack);
     await inventoryPage.addItemToCartByName(products.bikeLight);
     const count = await inventoryPage.getCartCount();
     expect(count).toBe("2");
   });
 
-  test("cart contains correct items after adding", async ({ loggedInPage }) => {
+  test("cart contains correct items after adding @smoke @regression", async ({ loggedInPage }) => {
 
     await inventoryPage.addItemToCartByName(products.backpack);
     await inventoryPage.goToCart();
@@ -38,7 +38,7 @@ test.describe("Cart", () => {
     expect(itemNames).toContain(products.backpack);
   });
 
-  test("can remove item from cart", async ({ loggedInPage }) => {
+  test("can remove item from cart @regression", async ({ loggedInPage }) => {
 
     await inventoryPage.addItemToCartByName(products.backpack);
     await inventoryPage.goToCart();
